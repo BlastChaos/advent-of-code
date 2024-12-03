@@ -1,40 +1,30 @@
 import os
-inputPath = "./input.txt"
+
+inputPath = "./Day 2/input.txt"
 file = open(inputPath, "r")
 
 values = []
 
-
 for line in file:
-    print(line.strip().split(" "))
     values.append(line.strip().split(" "))
 
+def is_safe(valuesRow):
+    asc = all(int(valuesRow[i]) < int(valuesRow[i + 1]) and 1 <= int(valuesRow[i + 1]) - int(valuesRow[i]) <= 3 for i in range(len(valuesRow) - 1))
+    desc = all(int(valuesRow[i]) > int(valuesRow[i + 1]) and 1 <= int(valuesRow[i]) - int(valuesRow[i + 1]) <= 3 for i in range(len(valuesRow) - 1))
+    return asc or desc
 
-# QUESTION 1
-
-# left.sort()
-# right.sort()
-
-# diff = 0
-
-# for i in range(len(left)):
-#     diff += abs(left[i] - right[i])
-
-# print(diff)
-
-
-# QUESTION 2
+def can_be_safe_with_one_removal(valuesRow):
+    for i in range(len(valuesRow)):
+        new_row = valuesRow[:i] + valuesRow[i + 1:]
+        if is_safe(new_row):
+            return True
+    return False
 
 result = 0
 
-for i in range(len(left)):
-    valuePresentRight = 0
-    valueLeft = left[i]
-
-    for j in range(len(right)):
-        if right[j] == valueLeft:
-            valuePresentRight+=1
-    
-    result+= valueLeft * valuePresentRight
+for valuesRow in values:
+    if is_safe(valuesRow) or can_be_safe_with_one_removal(valuesRow):
+        result += 1
 
 print(result)
+file.close()
