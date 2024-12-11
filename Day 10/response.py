@@ -21,7 +21,7 @@ for i in range(len(contents)):
 
 
 
-
+#Part 2
 def findPath(x, y, number):
     if number == 9:
         return 1
